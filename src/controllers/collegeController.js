@@ -38,7 +38,7 @@ const createCollege = async function (req, res) {
         }
 
         if (typeof (data.fullName) != "string") {
-            return res.status(400).send({ status: false, msg: "firstName should be string" })
+            return res.status(400).send({ status: false, msg: "fullName should be string" })
         }
 
         if (!data.fullName.trim().match(/^[a-zA-Z,\-.\s]*$/)) {
@@ -62,22 +62,22 @@ const createCollege = async function (req, res) {
         res.status(201).send({ status: true, data: created })
 
 
+
     }
     catch (err) {
         return res.status(500).send({ status: false, mag: err.message })
 
     }
-}
-
+}   
 
 const getcollege = async function (req, res) {
 
     try {
 
         const collegeName = req.query.collegeName
-        console.log(typeof (collegeName))
+        //console.log(typeof (collegeName))
 
-        if (!collegeName) { return res.status(400).send({ msg: "plzz provide collegeName" }) }
+        // if (!collegeName) { return res.status(400).send({ msg: "plzz provide collegeName" }) }
 
         if (!isValid(collegeName)) {
             return res.status(400).send({ status: false, msg: "College Name should not be empty " })
@@ -90,11 +90,16 @@ const getcollege = async function (req, res) {
 
 
         const details = await internModel.find().populate("collegeId")
-        console.log("PRINT", details)
+       //console.log("PRINT", details)
+         
+        let allinterns=[]
 
-        const allinterns = details.map(x => { if (x.collegeId.name == collegeName.toLowerCase()) { return x } })
-        if (!allinterns[0]) { return res.status(404).send({ status: true, msg: "no data found" }) }
+        const allinterns1 = details.map(x => { if (x.collegeId.name == collegeName.toLowerCase()) {allinterns.push(x)}; return allinterns  })
+
+
+        if (!allinterns1[0][0]) { return res.status(404).send({ status: true, msg: "no data found" }) }
         console.log("kuchbhi", allinterns)
+
 
 
 
@@ -130,8 +135,7 @@ const getcollege = async function (req, res) {
 
     } catch (err) { return res.status(500).send({ status: false, msg: err.message }) }
 
-}
-
+}         
 
 
 
