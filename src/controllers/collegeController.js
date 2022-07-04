@@ -114,7 +114,7 @@ const getcollege = async function (req, res) {
             }
 
             interns.push(a)
-
+        }
 
             console.log(interns)
 
@@ -131,7 +131,7 @@ const getcollege = async function (req, res) {
             return res.status(200).send({ status: true, msg: dataToFetch })
 
 
-        }
+        
 
     } catch (err) { return res.status(500).send({ status: false, msg: err.message }) }
 
